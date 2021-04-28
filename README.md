@@ -8,6 +8,7 @@ on Electricity Distribution Systems", by Borlaug et al., [published]() in 2021. 
 `conda env create -f environment.yml`  
   
 To activate the environment:  
+  
 `conda activate hdev-depot-charging-2021`  
 
 ## Project Organization:
