@@ -1,0 +1,17 @@
+name: hdev-depot-charging-2021
+channels:
+  - defaults
+dependencies:
+  - python=3
+  - numpy
+  - pandas
+  - matplotlib
+  - pip
+  - pip:
+    - pathlib
+    - jupyterlab
+  
+
+
+
+
