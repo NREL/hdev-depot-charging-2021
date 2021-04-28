@@ -28,9 +28,7 @@ To activate the environment:
     │   │       ├──veh_op_days.csv    <- ...
     │   │       ├──veh_schedules.csv  <- ...
     │   │
-    │   ├── outputs/
-    │       ├── 1s-load-profiles/     <- sim. 1s daily load profiles
-    │       ├── 15min-load-profiles/  <- agg. 15-min daily load profiles
+    │   ├── outputs/                  <- sim. 1s & agg. 15-min daily load profiles
     │   
     ├── figures/                      <- plotting output dir
     │
