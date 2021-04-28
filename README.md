@@ -38,7 +38,7 @@ To activate the environment:
     │   ├── demo.ipynb                <- demonstrates code use
     │
     ├── src/                          <- source code
-        ├── depot_charging.py         <- gen/plots/agg load profiles
+        ├── depot_charging.py         <- generate/plot/aggregate load profiles
   
 ## Citation:  
 `Borlaug, B., Muratori, M., Gilleran, M., Woody, D., Muston, W., Canada, T., Ingram, A., Gresham, H., and McQueen, C., (2021). "Heavy-Duty Truck Electrification and the Impacts of Depot Charging on Electricity Distribution Systems". Forthcoming.`  
