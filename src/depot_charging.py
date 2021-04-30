@@ -17,7 +17,7 @@ def generate_load_profiles(fleet,
                            seed=0, 
                            to_file=False,
                            ylim=None,
-                           print_pk_loads=True,
+                           print_daily_energy_var=True,
                            agg_15min=False):
         """
         Generates n_samples fleet load profiles for fleet ('fleet1-beverage-
@@ -45,8 +45,9 @@ def generate_load_profiles(fleet,
                 '../data/load_profiles/' and plot to file at '../figures/load_profiles/'
             y_lim (int, optional): fixes y-axis limit for plotting. If None, y-axis limit
                 is set automatically
-            prink_pk_loads (bool, optional): if True, prints peak load (kW) for min peak
-                load day, average day, and max peak load day to STDOUT.
+            prink_daily_energy_var (bool, optional): if True, prints peak load (kW) for min peak
+                load day, average day, and max peak load day & min., mean., and max. daily energy
+                requirements to STDOUT.
             agg_15min (bool, optional): if True, load profile is aggregated over 
                 15-min interval (avg.), else load profile second-by-second
 
@@ -91,7 +92,9 @@ def generate_load_profiles(fleet,
         avg_fleet_loads, max_fleet_loads, min_fleet_loads = [], [], []
         total_load_all_samples = np.zeros(86399)
         max_peak_load_all_fleet_profs = 0
+        max_daily_kwh_all_fleet_profs = 0
         min_peak_load_all_fleet_profs = np.inf
+        min_daily_kwh_all_fleet_profs = np.inf
         fig, ax = plt.subplots(figsize=(2, 1.67))
         
         for rand_int in rand_ints:
@@ -211,6 +214,7 @@ def generate_load_profiles(fleet,
 
             fleet_prof_df = charge_profs_df.groupby('rel_s')['kw'].sum()
             fleet_prof_df = fleet_prof_df.reset_index()
+            
             avg_fleet_load_kw = fleet_prof_df[fleet_prof_df.kw!=0]['kw'].mean()
             avg_fleet_loads.append(avg_fleet_load_kw)
             max_fleet_load_kw = max(fleet_prof_df['kw'])
@@ -223,6 +227,14 @@ def generate_load_profiles(fleet,
             if max_fleet_load_kw < min_peak_load_all_fleet_profs:
                 min_peak_load_all_fleet_profs = max_fleet_load_kw
                 min_load_fleet_prof_df = fleet_prof_df
+            
+            daily_kwh = fleet_prof_df['kw'].sum() / 3600
+            
+            if daily_kwh > max_daily_kwh_all_fleet_profs:
+                max_daily_kwh_all_fleet_profs = daily_kwh
+                
+            if daily_kwh < min_daily_kwh_all_fleet_profs:
+                min_daily_kwh_all_fleet_profs = daily_kwh
 
             total_load_all_samples += np.array(fleet_prof_df['kw'])
 
@@ -296,10 +308,14 @@ def generate_load_profiles(fleet,
             min_lp_fp = os.path.join('..', 'data', 'outputs', f'{fleet}_{fleet_size}vehs_min-prof_{charge_strat}_{res}.csv')
             min_load_profile_df.to_csv(min_lp_fp, index=False)
             
-        if print_pk_loads:
-            print('Low Bound Peak Demand (kW): {}'.format(round(min_peak_load_all_fleet_profs,2)))
-            print('Average Peak Demand (kW): {}'.format(round(np.array(avg_load_all_samples).max(),2)))
-            print('Upper Bound Peak Demand (kW): {}'.format(round(max_peak_load_all_fleet_profs,2)))
+        if print_daily_energy_var:
+            print('Low Bound Peak Demand (kW): {}'.format(round(min_peak_load_all_fleet_profs, 2)))
+            print('Average Peak Demand (kW): {}'.format(round(np.array(avg_load_all_samples).max(), 2)))
+            print('Upper Bound Peak Demand (kW): {}'.format(round(max_peak_load_all_fleet_profs, 2)))
+            print()
+            print('Low Bound kWh/operating day: {}'.format(round(min_daily_kwh_all_fleet_profs, 2)))
+            print('Average kWh/operating day: {}'.format(round(np.array(avg_load_all_samples).sum() / 3600, 2)))
+            print('Upper Bound kWh/operating day: {}'.format(round(max_daily_kwh_all_fleet_profs, 2)))
             
         plt.show()
         
