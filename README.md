@@ -39,7 +39,7 @@ To activate the environment:
         ├── depot_charging.py         <- generate/plot/aggregate load profiles
   
 ## Citation:  
-`Borlaug, B., Muratori, M., Gilleran, M., Woody, D., Muston, W., Canada, T., Ingram, A., Gresham, H., and McQueen, C., (2021). "Heavy-Duty Truck Electrification and the Impacts of Depot Charging on Electricity Distribution Systems". Forthcoming.`  
+`Borlaug, B., Muratori, M., Gilleran, M. et al. Heavy-duty truck electrification and the impacts of depot charging on electricity distribution systems. Nat Energy 6, 673–682 (2021). https://doi.org/10.1038/s41560-021-00855-0`  
   
 ## License:  
 This code is licensed for use under the terms of the Berkeley Software Distribution 3-clause (BSD-3) license; see **LICENSE**.
